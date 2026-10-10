@@ -18,13 +18,13 @@ A locked decision plus a thin spec for Grok (grok.com / Grok app) to call the ex
 - Destination artifact: decision + thin spec, not a finished live connection.
 - Grok means grok.com / Grok app via official custom MCP connector, not Cursor chat.
 - This map covers only the Grok → existing CLI invocation path.
+- [Grok custom MCP connector contract](issues/01-grok-custom-mcp-connector-contract.md): public HTTPS MCP URL (tunnel localhost); Streamable HTTP or SSE; OAuth/API-key auth in Grok after URL; tools auto-discovered from the server.
 - [Existing Python Agent invocation surface](issues/02-existing-python-agent-invocation-surface.md): CLI and FastMCP share seven ops via `agent.runner`; Grok uses HTTP MCP on port 8790 after `run-grok.ps1` and cloudflared.
 
 ## Not yet specified
 
 - Exact Grok-side wording / connector instructions after the spec exists.
 - What Grok should do when this laptop is asleep or the Agent process is down.
-- Whether the MCP process should stay a thin wrapper that shells out to `python -m agent`, or keep the current in-process FastMCP that imports `agent.runner` (depends on the invocation-surface research).
 
 ## Out of scope
 
