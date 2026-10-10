@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Software Developer - Northwind Labs</title>
+    <style>
+      body { font-family: Georgia, serif; max-width: 760px; margin: 32px auto; color: #222; }
+      h1 { margin-bottom: 0; }
+      .company { color: #355; }
+      form { display: grid; gap: 12px; margin-top: 24px; padding: 20px; border: 1px solid #ccc; }
+      label { display: flex; flex-direction: column; gap: 4px; font-size: 14px; }
+      input, textarea, select { padding: 8px; font: 16px sans-serif; }
+      button { padding: 10px 16px; width: max-content; }
+      .ok { display: none; padding: 16px; background: #e8f5e9; }
+    </style>
+  </head>
+  <body>
+    <p class="company">Northwind Labs · Toronto, ON</p>
+    <h1>Software Developer</h1>
+    <p>
+      We are hiring a Software Developer to build internal tools used by Canadian operations teams.
+      You will work with Python, FastAPI, and modern web apps. Cover letter is required.
+    </p>
+    <h2>Job description</h2>
+    <p>
+      Led delivery of reliable services, designed APIs, and improved automation for document workflows.
+      Experience with Playwright or browser automation is a plus. Candidates must be eligible to work in Canada.
+    </p>
+    <form id="apply">
+      <h2>Create an account and apply</h2>
+      <label>First name <input name="first_name" autocomplete="given-name" required /></label>
+      <label>Last name <input name="last_name" autocomplete="family-name" required /></label>
+      <label>Email <input name="email" type="email" autocomplete="email" required /></label>
+      <label>Phone <input name="phone" autocomplete="tel" /></label>
+      <label>City <input name="city" autocomplete="address-level2" /></label>
+      <label>Province
+        <select name="province">
+          <option value="">Select</option>
+          <option value="ON">ON</option>
+          <option value="BC">BC</option>
+          <option value="QC">QC</option>
+        </select>
+      </label>
+      <label>Work authorization <input name="work_status" placeholder="PR / Citizen / Permit" /></label>
+      <label>Password <input name="password" type="password" autocomplete="new-password" /></label>
+      <label>Resume / CV <input name="resume" type="file" accept="application/pdf" /></label>
+      <label>Cover letter <input name="cover_letter" type="file" accept="application/pdf" /></label>
+      <label>Cover letter text <textarea name="cover_text" rows="6" placeholder="Paste cover letter if no file"></textarea></label>
+      <button type="submit">Submit application</button>
+    </form>
+    <div class="ok" id="thanks">Application received. This is a local test page only.</div>
+    <script>
+      document.getElementById("apply").addEventListener("submit", (event) => {
+        event.preventDefault();
+        document.getElementById("thanks").style.display = "block";
+      });
+    </script>
+  </body>
+</html>

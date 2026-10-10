@@ -1,0 +1,17 @@
+.venv/
+venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.env
+.cache/
+.playwright-browsers/
+data/profile.json
+data/jobs.json
+data/*.bak
+resume/*.pdf
+!resume/master.pdf
+out/
+*.log
+.DS_Store
+Thumbs.db

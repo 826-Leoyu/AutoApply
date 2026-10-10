@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#1f3d32" />
+    <title>AutoApply</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="app">
+      <aside class="rail">
+        <div class="brand">
+          <span class="mark">AA</span>
+          <div>
+            <strong>AutoApply</strong>
+            <small>加拿大求职助手</small>
+          </div>
+        </div>
+        <nav>
+          <button data-view="jobs" class="active">岗位队列</button>
+          <button data-view="profile">申请档案</button>
+          <button data-view="phone">手机配对</button>
+        </nav>
+        <p class="hint" id="masterHint"></p>
+      </aside>
+      <main>
+        <section id="view-jobs" class="view">
+          <header class="page-head">
+            <div>
+              <h1>岗位队列</h1>
+              <p>先生成针对 JD 的简历和 Cover letter，再在电脑上打开投递页。</p>
+            </div>
+            <div class="actions">
+              <button id="demoBtn" class="ghost">添加本地测试岗位</button>
+            </div>
+          </header>
+          <form id="addForm" class="card row">
+            <input name="url" placeholder="粘贴公司 ATS / 岗位 URL" required />
+            <input name="title" placeholder="职位（可空）" />
+            <input name="company" placeholder="公司（可空）" />
+            <button type="submit">加入队列</button>
+          </form>
+          <form id="scanForm" class="card row">
+            <input name="keywords" placeholder="Job Bank 关键词，如 software developer" required />
+            <input name="location" placeholder="地点" value="Toronto, ON" />
+            <button type="submit" class="ghost">扫描 Job Bank</button>
+          </form>
+          <div id="jobList" class="list"></div>
+        </section>
+
+        <section id="view-detail" class="view hidden">
+          <header class="page-head">
+            <div>
+              <button id="backBtn" class="ghost">返回队列</button>
+              <h1 id="detailTitle">岗位</h1>
+              <p id="detailMeta"></p>
+            </div>
+            <div class="actions">
+              <button id="prepareBtn">生成材料</button>
+              <button id="applyBtn" class="primary">开始投递</button>
+              <button id="submittedBtn" class="ghost">标记已提交</button>
+            </div>
+          </header>
+          <p id="detailStatus" class="status"></p>
+          <div class="grid">
+            <article class="card">
+              <h2>岗位描述</h2>
+              <pre id="jdText" class="scroll"></pre>
+            </article>
+            <article class="card">
+              <h2>Highlight（可改）</h2>
+              <p class="muted">只改表述，不改你原简历的版式。保存后会重新生成 PDF。</p>
+              <div id="highlights"></div>
+              <button id="saveHighlights" class="ghost">保存并重新生成</button>
+            </article>
+          </div>
+          <div class="grid">
+            <article class="card">
+              <h2>新简历 PDF</h2>
+              <iframe id="resumeFrame" title="resume"></iframe>
+            </article>
+            <article class="card">
+              <h2>Cover letter PDF</h2>
+              <iframe id="coverFrame" title="cover letter"></iframe>
+            </article>
+          </div>
+          <article class="card">
+            <h2>日志</h2>
+            <pre id="logText" class="scroll"></pre>
+          </article>
+        </section>
+
+        <section id="view-profile" class="view hidden">
+          <header class="page-head">
+            <div>
+              <h1>申请档案</h1>
+              <p>注册和填表会用这些信息。主简历请放到 resume/master.pdf。</p>
+            </div>
+          </header>
+          <form id="profileForm" class="card form-grid">
+            <label>姓名 <input name="full_name" /></label>
+            <label>邮箱 <input name="email" type="email" /></label>
+            <label>电话 <input name="phone" /></label>
+            <label>地址 <input name="address" /></label>
+            <label>城市 <input name="city" /></label>
+            <label>省份 <input name="province" placeholder="ON" /></label>
+            <label>邮编 <input name="postal_code" /></label>
+            <label>国家 <input name="country" /></label>
+            <label>加拿大工作身份 <input name="work_status" placeholder="Citizen / PR / Work permit" /></label>
+            <label>LinkedIn <input name="linkedin" /></label>
+            <label>网站 <input name="website" /></label>
+            <label>ATS 注册密码 <input name="password" type="password" placeholder="留空则不改已保存的密码" /></label>
+            <label class="wide">目标职位 <input name="target_titles" /></label>
+            <label class="wide">技能关键词 <textarea name="skills" rows="2"></textarea></label>
+            <label class="wide">一句话简介 <textarea name="summary" rows="3"></textarea></label>
+            <label>LLM 接口 <input name="openai_base_url" /></label>
+            <label>模型 <input name="openai_model" /></label>
+            <label class="wide">API Key <input name="openai_api_key" type="password" placeholder="不填也可以先跑本地测试；改简历质量会较弱" /></label>
+            <div class="wide">
+              <button type="submit">保存档案</button>
+              <span id="profileMsg" class="muted"></span>
+            </div>
+          </form>
+        </section>
+
+        <section id="view-phone" class="view hidden">
+          <header class="page-head">
+            <div>
+              <h1>手机配对</h1>
+              <p>电脑小软件开着时，手机浏览器打开下面地址即可看队列、改 Highlight、预览 PDF。</p>
+            </div>
+          </header>
+          <article class="card">
+            <p>本机：<code id="localUrl"></code></p>
+            <p>同一 Wi-Fi / Tailscale：<code id="phoneUrl"></code></p>
+            <p class="muted">真正填表和上传文件只能在这台电脑上点「开始投递」。外出请用 Tailscale 连回这台 Windows。</p>
+          </article>
+        </section>
+      </main>
+    </div>
+    <script src="/app.js"></script>
+  </body>
+</html>
